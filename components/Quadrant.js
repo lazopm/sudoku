@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import Cell from './Cell';
+import Cell from '../components/Cell';
 
 const Container = styled.View`
     border-style: solid;
@@ -30,7 +30,7 @@ const Quadrant = ({ matrix, startingX, startingY, selectedCell, ...restProps }) 
                     return (
                         <Cell
                             key={`sq${x}`}
-                            text={n}
+                            num={n}
                             leftEdge={x === 0}
                             topEdge={y === 0}
                             x={cellX}

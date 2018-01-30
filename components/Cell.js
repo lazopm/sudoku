@@ -33,15 +33,12 @@ const NumberText = styled.Text`
     font-size: 20;
 `;
 
-const Cell = ({ text, x, y, selected, selectCell, ...restProps }) => (
+const Cell = ({ num, x, y, selected, selectCell, ...restProps }) => (
     <Container {...restProps}>
         <Number selected={selected} onPress={() => {
-            console.log(x, y, selectCell);
             selectCell(x, y);
         }}>
-            <NumberText>
-                {`${x},${y}`}
-            </NumberText>
+            <NumberText>{num}</NumberText>
         </Number>
     </Container>
 );

@@ -1,3 +1,6 @@
+export const NEW_GAME = 'NEW_GAME';
+export const newGame = difficulty => ({ type: NEW_GAME, difficulty });
+
 export const SELECT_CELL = 'SELECT_CELL'; 
 export const selectCell = (x, y) => ({ type: SELECT_CELL, x, y })
 

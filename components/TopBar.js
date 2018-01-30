@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 
 const Container = styled.View`
     background: papayawhip;
-    height: 50;
+    height: 100;
 `;
 
 const TopBar = ({ undo }) => (

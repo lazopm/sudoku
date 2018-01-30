@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 
 const Container = styled.View`
     background: papayawhip;
-    flex: 2;
+    height: 140;
 `;
 
 const BottomBar = ({ undo }) => (

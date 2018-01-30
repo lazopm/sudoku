@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { connect } from 'react-redux';
 import { getQuadrant, range } from '../util'; 
-import Quadrant from './Quadrant';
+import Quadrant from '../components/Quadrant';
 
 const board = new Array(9)
     .fill(null)
@@ -20,6 +20,7 @@ const QuadrantRow = styled.View`
 
 const Quadrants = styled.View`
     border-width: 3;
+    border-radius: 4;
     border-style: solid;
     border-color: #333;
 `;
@@ -46,9 +47,9 @@ const Board = ({ boardMatrix, selectedCell }) => (
     </Container>
 );
 
-const mapStateToProps = ({ board, selected }) => ({
-    boardMatrix: board,
-    selectedCell: selected,
+const mapStateToProps = ({ game }) => ({
+    boardMatrix: game.board,
+    selectedCell: game.selected,
 });
 
 export default connect(mapStateToProps)(Board);

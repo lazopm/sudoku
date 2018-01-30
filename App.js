@@ -1,26 +1,18 @@
 import React from 'react';
-import styled from "styled-components/native";
-import { StatusBar } from 'react-native';
-import Board from './components/Board';
-import TopBar from './components/TopBar';
-import BottomBar from './components/BottomBar';
+import { NativeRouter, Route, Switch} from 'react-router-native'
 import createStore from './store';
 import { Provider } from 'react-redux';
-
-const Container = styled.View`
-    flex: 1;
-    background-color: pink;
-    justify-content: center;
-`;
+import Menu from './containers/Menu';
+import Game from './containers/Game';
 
 const App = () => ( 
     <Provider store={createStore()}>
-        <Container>
-            <StatusBar hidden />
-            <TopBar/>
-            <Board/>
-            <BottomBar/>
-        </Container>
+        <NativeRouter>
+            <Switch>
+                <Route exact path="/" component={Menu}/>
+                <Route path="/game" component={Game}/>
+            </Switch>
+        </NativeRouter>
     </Provider>
 );
 

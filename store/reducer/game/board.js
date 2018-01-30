@@ -1,8 +1,9 @@
-import { SET_CELL } from '../actions';
+import { SET_CELL, NEW_GAME } from '../../actions';
 
-const initialState = new Array(9).fill(null)
+const createBoardMatrix = () => new Array(9).fill(null)
     .map(() => new Array(9).fill(null));
 
+const initialState = createBoardMatrix();
 export default (state = initialState, { type, ...action }) => {
     switch(type) {
         case(SET_CELL):
@@ -13,6 +14,8 @@ export default (state = initialState, { type, ...action }) => {
                     : num
                 )
             );
+        case(NEW_GAME):
+            return createBoardMatrix();
         default:
             return state;
     }
