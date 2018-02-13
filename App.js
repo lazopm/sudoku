@@ -9,8 +9,8 @@ const App = () => (
     <Provider store={createStore()}>
         <NativeRouter>
             <Switch>
-                <Route exact path="/" component={Menu}/>
-                <Route path="/game" component={Game}/>
+                <Route exact path="/" component={Game}/>
+                <Route path="/game" component={Menu}/>
             </Switch>
         </NativeRouter>
     </Provider>

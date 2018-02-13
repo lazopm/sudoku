@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { connect } from 'react-redux';
-import { getQuadrant, range } from '../util'; 
+import chunk from 'lodash/fp/chunk';
+import compose from 'lodash/fp/compose';
+import map from 'lodash/fp/map';
+import reduce from 'lodash/fp/reduce';
+import range from 'lodash/fp/range';
 import Quadrant from '../components/Quadrant';
-
-const board = new Array(9)
-    .fill(null)
-    .map(() => new Array(9).fill(null));
 
 const Container = styled.View`
     flex: 4;
@@ -25,31 +25,30 @@ const Quadrants = styled.View`
     border-color: #333;
 `;
 
-const Board = ({ boardMatrix, selectedCell }) => (
-    <Container>
-        <Quadrants>
-            {range(0, 3).map(y => (
-                <QuadrantRow key={`row${y}`}>
-                    {range(0, 3).map(x => (
-                        <Quadrant
-                            key={`quadrant${x}`}
-                            topEdge={y === 0}
-                            leftEdge={x === 0}
-                            startingX={x * 3}
-                            startingY={y * 3}
-                            matrix={getQuadrant(boardMatrix, x, y)}
-                            selectedCell={selectedCell}
-                        />
-                    ))}
-                </QuadrantRow>
-            ))}
-        </Quadrants>
-    </Container>
-);
+const matrix = compose( 
+    map(chunks => chunks.reduce((mem, row, i) => {
+        mem[i % 3].push(row);
+        return mem;
+    }, [[],[],[]])),
+    map(chunk(3)),
+    chunk(27),
+    range(0),
+)(81);
+const Board = () => {
+    return (
+        <Container>
+            <Quadrants>
+                {matrix.map((quadrants, i) => (
+                    <QuadrantRow key={i}>
+                        {quadrants.map((quadrant, i) => (
+                            <Quadrant key={i} matrix={quadrant}/>
+                        ))}
+                    </QuadrantRow>
+                ))}
+            </Quadrants>
+        </Container>
+    );
+};
 
-const mapStateToProps = ({ game }) => ({
-    boardMatrix: game.board,
-    selectedCell: game.selected,
-});
 
-export default connect(mapStateToProps)(Board);
+export default Board;

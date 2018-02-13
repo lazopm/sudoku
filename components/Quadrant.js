@@ -8,41 +8,21 @@ const Container = styled.View`
     border-left-width: 2;
     border-color: #888;
     background-color: white;
-    ${props => props.topEdge && `
-        border-top-width: 0;
-    `}
-    ${props => props.leftEdge && `
-        border-left-width: 0;
-    `}
+    ${props => props.topLeftCell < 9 && 'border-top-width: 0;'}
+    ${props => props.topLeftCell % 9 === 0 && 'border-left-width: 0;'}
 `;
 
 const Row = styled.View`
     flex-direction: row;
 `;
 
-const Quadrant = ({ matrix, startingX, startingY, selectedCell, ...restProps }) => (
-    <Container {...restProps}>
-        {matrix.map((row, y) => (
-            <Row key={`row${y}`}>
-                {row.map((n, x) => {
-                    const cellX = startingX + x;
-                    const cellY = startingY + y;
-                    return (
-                        <Cell
-                            key={`sq${x}`}
-                            num={n}
-                            leftEdge={x === 0}
-                            topEdge={y === 0}
-                            x={cellX}
-                            y={cellY}
-                            selected={
-                                selectedCell
-                                && cellX === selectedCell[0]
-                                && cellY === selectedCell[1]
-                            }
-                        />
-                    );
-                })}
+const Quadrant = ({ matrix }) => (
+    <Container topLeftCell={matrix[0][0]}>
+        {matrix.map((cells, i)=> (
+            <Row key={i}>
+                {cells.map((x, i) => (
+                    <Cell key={i} position={x}/>
+                ))}
             </Row>
         ))}
     </Container>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { range } from '../util';
+import range from 'lodash/fp/range';
 
 const Container = styled.View`
     background: papayawhip;

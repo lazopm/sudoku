@@ -1,24 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectCell } from '../store/actions';
+import { select } from '../store/actions';
 import styled from 'styled-components/native';
 
 const Container = styled.View`
     height: 40;
     width: 40;
     border-style: solid;
-    border-top-width: 2;
-    border-left-width: 2;
-    border-color: #ccc;
-    ${props => props.topEdge && `
-        border-top-width: 0;
-    `}
-    ${props => props.leftEdge && `
-        border-left-width: 0;
-    `}
+    border-width: 1;
+    border-color: #ddd;
 `;
 
 const Number = styled.TouchableOpacity`
+    ${props => !props.playable && `
+        background: #eee;
+    `}
     ${props => props.selected && `
         background-color: papayawhip;
     `}
@@ -28,20 +24,37 @@ const Number = styled.TouchableOpacity`
 `;
 
 const NumberText = styled.Text`
-    color: #111;
+    color: #555;
+    ${props => !props.playable && `
+        color: #111;
+    `}
     font-weight: bold;
     font-size: 20;
 `;
 
-const Cell = ({ num, x, y, selected, selectCell, ...restProps }) => (
-    <Container {...restProps}>
-        <Number selected={selected} onPress={() => {
-            selectCell(x, y);
-        }}>
-            <NumberText>{num}</NumberText>
+const Cell = ({ value, select, isSelected, position, isPlayable }) => (
+    <Container>
+        <Number
+            playable={isPlayable}
+            selected={isSelected}
+            onPress={() => select(position)}
+        >
+            <NumberText
+                playable={isPlayable}
+            >
+                {value}
+            </NumberText>
         </Number>
     </Container>
 );
 
-const mapDispatchToProps = { selectCell }; 
-export default connect(null, mapDispatchToProps)(Cell);
+const mapStateToProps = (state, { position }) => {
+    const value = state.game.board[position];
+    return {
+        value,
+        isPlayable: value === null,
+        isSelected: state.game.selected === position,
+    };
+};
+
+export default connect(mapStateToProps, { select })(Cell);
