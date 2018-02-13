@@ -1,4 +1,5 @@
 import React from 'react';
+import findLast from 'lodash/findLast';
 import { connect } from 'react-redux';
 import { select } from '../store/actions';
 import styled from 'styled-components/native';
@@ -23,6 +24,7 @@ const Number = styled.TouchableOpacity`
     justify-content: center;
 `;
 
+
 const NumberText = styled.Text`
     color: #555;
     ${props => !props.playable && `
@@ -37,7 +39,7 @@ const Cell = ({ value, select, isSelected, position, isPlayable }) => (
         <Number
             playable={isPlayable}
             selected={isSelected}
-            onPress={() => select(position)}
+            onPress={isPlayable ? () => select(position) : null}
         >
             <NumberText
                 playable={isPlayable}
@@ -49,10 +51,13 @@ const Cell = ({ value, select, isSelected, position, isPlayable }) => (
 );
 
 const mapStateToProps = (state, { position }) => {
-    const value = state.game.board[position];
+    const initialValue = state.game.board[position];
+    const isPlayable = initialValue === null;
+    const played = isPlayable &&
+        findLast(state.game.plays, play => play[0] === position)
     return {
-        value,
-        isPlayable: value === null,
+        value: played ? played[1] : initialValue,
+        isPlayable,
         isSelected: state.game.selected === position,
     };
 };
